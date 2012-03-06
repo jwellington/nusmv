@@ -1,45 +1,47 @@
 MODULE main
 	VAR
-		demandNS		: boolean;
-		demandEW	: boolean;
+		--The demandNS and demandEW are based on the weight sensors for vehicle traffic and the
+		--
+		demandNS	: 	boolean;
+		demandEW	: 	boolean;
 		emergencyNS	:	boolean;
 		emergencyEW	:	boolean;
-		entering	: boolean;
+		entering	: 	boolean;
 		exiting		:	boolean;
 		initStatusEntering	:	{myentering, myexiting, myidle};
-		initStatusIdle	:		{myentering, myexiting, myidle};
+		initStatusIdle		:	{myentering, myexiting, myidle};
 		lightEW		:	process light(demandNS, emergencyNS, entering, exiting, initStatusEntering);
 		lightNS		:	process	light(demandEW, emergencyEW, entering, exiting, initStatusIdle);
 	ASSIGN
-		init(demandNS)	:= FALSE;
-		init(demandEW)	:= FALSE;
-		init(emergencyNS) := FALSE;
-		init(emergencyEW) := FALSE;
-		init(entering) := TRUE;
-		init(exiting) := FALSE;
-		init(initStatusEntering) := myentering;
-		init(initStatusIdle) := myidle;
+		init(demandNS)		:= FALSE;
+		init(demandEW)		:= FALSE;
+		init(emergencyNS) 	:= FALSE;
+		init(emergencyEW) 	:= FALSE;
+		init(entering) 		:= TRUE;
+		init(exiting) 		:= FALSE;
+		init(initStatusEntering) 	:= myentering;
+		init(initStatusIdle) 		:= myidle;
 		next(demandEW)	:=
 			case
-				lightEW.color = red & demandEW : {TRUE};
-				TRUE						: {TRUE, FALSE};
+				lightEW.color = red & demandEW 	: {TRUE};
+				TRUE							: {TRUE, FALSE};
 			esac;
 		next(demandNS)	:=
 			case
-				lightNS.color = red & demandNS : {TRUE};
-				TRUE						: {TRUE, FALSE};
+				lightNS.color = red & demandNS 	: {TRUE};
+				TRUE							: {TRUE, FALSE};
 			esac;
 		next(emergencyNS)	:=
 			case
-				lightNS.color = green 			  : {FALSE};
-				lightNS.color != green & emergencyNS : {TRUE};
-				TRUE							: {TRUE, FALSE};
+				lightNS.color = green 			  		: {FALSE};
+				lightNS.color != green & emergencyNS 	: {TRUE};
+				TRUE									: {TRUE, FALSE};
 			esac;
 		next(emergencyEW)	:=
 			case
-				lightEW.color = green				: {FALSE};
-				lightEW.color != green & emergencyEW : {TRUE};
-				TRUE							: {TRUE, FALSE};
+				lightEW.color = green					: {FALSE};
+				lightEW.color != green & emergencyEW 	: {TRUE};
+				TRUE									: {TRUE, FALSE};
 			esac;
 		
 	SPEC AG !(lightEW.color = green & lightNS.color = green)
@@ -54,20 +56,21 @@ MODULE main
 	SPEC AG !(entering & (lightNS.color = green | lightEW.color = green)) 
 	
 	LTLSPEC G ((lightEW.color = red & demandEW) -> F lightEW.color = green)
-	LTLSPEC G( (emergencyNS & Y(!emergencyNS)) -> F lightNS.color = green)
-	LTLSPEC G( (emergencyEW & Y(!emergencyEW)) -> F lightEW.color = green)
+	LTLSPEC G ((emergencyNS & Y(!emergencyNS)) -> F lightNS.color = green)
+	LTLSPEC G ((emergencyEW & Y(!emergencyEW)) -> F lightEW.color = green)
+	LTLSPEC G (lightEW.color = green U lightEW.color = yellow)
 	FAIRNESS
 		running
 MODULE light( otherDemand, emergency, entering, exiting, initstatus)
 	VAR
-		color : {green, yellow, red};
+		color 	: {green, yellow, red};
 		walking : {on, flashing, off};
 		status 	: {myentering, myexiting, myidle};
 		
 	ASSIGN
-		init(color) := red;
-		init(walking) := off;
-		init(status) := initstatus;
+		init(color) 	:= red;
+		init(walking) 	:= off;
+		init(status) 	:= initstatus;
 		next(color) :=
 			case
 				color = red & entering & status = myentering & !exiting		: green;
