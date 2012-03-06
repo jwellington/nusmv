@@ -1,17 +1,16 @@
 MODULE main
 	VAR
-		--The demandNS and demandEW are based on the weight sensors for vehicle traffic and the
-		--
-		demandNS	: 	boolean;
+		demandNS	: 	boolean; 	--Based on weight sensor and walk button
 		demandEW	: 	boolean;
-		emergencyNS	:	boolean;
+		emergencyNS	:	boolean; 	--Based on emergency sensor
 		emergencyEW	:	boolean;
-		entering	: 	boolean;
-		exiting		:	boolean;
+		entering	: 	boolean; 	--True if a light is turning green (lock)
+		exiting		:	boolean; 	--True if a light is turning red (lock)	
 		initStatusEntering	:	{myentering, myexiting, myidle};
 		initStatusIdle		:	{myentering, myexiting, myidle};
 		lightEW		:	process light(demandNS, emergencyNS, entering, exiting, initStatusEntering);
 		lightNS		:	process	light(demandEW, emergencyEW, entering, exiting, initStatusIdle);
+		
 	ASSIGN
 		init(demandNS)		:= FALSE;
 		init(demandEW)		:= FALSE;
@@ -21,6 +20,8 @@ MODULE main
 		init(exiting) 		:= FALSE;
 		init(initStatusEntering) 	:= myentering;
 		init(initStatusIdle) 		:= myidle;
+
+		--If light is green, demand can become false. If light is red, true demand will stay true
 		next(demandEW)	:=
 			case
 				lightEW.color = red & demandEW 	: {TRUE};
@@ -31,6 +32,8 @@ MODULE main
 				lightNS.color = red & demandNS 	: {TRUE};
 				TRUE							: {TRUE, FALSE};
 			esac;
+		
+		--When light is green, emergency will end. Otherwise the same as demand.
 		next(emergencyNS)	:=
 			case
 				lightNS.color = green 			  		: {FALSE};
@@ -43,13 +46,21 @@ MODULE main
 				lightEW.color != green & emergencyEW 	: {TRUE};
 				TRUE									: {TRUE, FALSE};
 			esac;
-		
+	
+	--Only one light can be green at a time
 	SPEC AG !(lightEW.color = green & lightNS.color = green)
+	
+	--If EW is green, NS will not allow walking 
 	SPEC AG !(lightEW.color = green & lightNS.walking = on)
 
+	--If EW is green, then EW will eventually become red.
+	--In our implimentation this is not true as shown in our writeup.
 	SPEC AG (lightEW.color = green -> AF lightEW.color = red)
 	
+	--If EW is red, but has demand, eventually EW will be green.
 	LTLSPEC G ((lightEW.color = red & demandEW) -> F lightEW.color = green)
+	
+	--The NS light will eventually turn green after an emergency is raised NS.
 	LTLSPEC G ((emergencyNS & Y(!emergencyNS)) -> F lightNS.color = green)
 	
 	FAIRNESS
