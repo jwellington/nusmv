@@ -16,7 +16,188 @@
 \pgndec\pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
 1.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
-a) We intend to model a pair of traffic lights at an intersection which will change based on the demand of the emergency vehicles, and cards and pedestrians. The lights will never be green in both directions }
+a) We intend to model a pair of traffic lights at an intersection which will change based on the demand of the emergency vehicles, and cards and pedestrians. The lights will have three colors: red, green, and yellow. They will also have a pedestrian symbol which will either be: on, flashing, or off. The pedestrian light will be on when the light goes to green, then it will flashing before the light turns yellow (but is still green), and it will turn to off when the light turns yellow or red. The lights will never be green in both directions, and a light will stay green until there is demand for the other light to go green or an emergency alarm is raised in the other direction. Demand is an abstraction of both the walk button and the weight sensors, because for the purposes of the light they are the same. When an emergency alarm is raised in one direction while the light in the opposite direction is green, then that light will immediately go to yellow and its pedestrian light will go to off, skipping the flashing state.}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+e) }
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+*** This is NuSMV 2.4.3 (compiled on Fri Apr  2 20:06:42 UTC 2010)\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+*** For more information on NuSMV see <http://nusmv.irst.itc.it>\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+*** or email to <nusmv-users@irst.itc.it>.\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+*** Please report bugs to <nusmv@irst.itc.it>.\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- specification AG !(lightEW.color = green & lightNS.color = green)  is true\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- specification AG !(lightEW.color = green & lightNS.walking = on)  is true\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- specification AG (lightEW.color = green -> AF lightEW.color = red)  is false\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- as demonstrated by the following execution sequence\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+Trace Description: CTL Counterexample \u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+Trace Type: Counterexample \u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> State: 1.1 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+demandNS = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+demandEW = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+emergencyNS = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+emergencyEW = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+entering = 1\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+exiting = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+initStatusEntering = myentering\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+initStatusIdle = myidle\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.color = red\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.walking = off\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.status = myentering\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.color = red\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.walking = off\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.status = myidle\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> Input: 1.2 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+_process_selector_ = lightEW\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.running = 1\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- Loop starts here\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> State: 1.2 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+entering = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+initStatusEntering = myidle\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.color = green\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.walking = on\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.status = myidle\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> Input: 1.3 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+_process_selector_ = main\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+running = 1\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- Loop starts here\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> State: 1.3 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> Input: 1.4 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+_process_selector_ = lightNS\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.running = 1\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- Loop starts here\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> State: 1.4 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> Input: 1.5 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+_process_selector_ = lightEW\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.running = 1\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- Loop starts here\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> State: 1.5 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> Input: 1.6 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+_process_selector_ = main\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+running = 1\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightNS.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch
+  }{\rtlch \ltrch\loch
+lightEW.running = 0\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-> State: 1.6 <-\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- specification  G ((lightEW.color = red & demandEW) ->  F lightEW.color = green)  is true\u13\'0d}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+-- specification  G ((emergencyNS &  Y !emergencyNS) ->  F lightNS.color = green)  is true}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
+f) We are showing that our lights will not go red unless there is a demand or an emergency for the other direction by showing that there is a case that a light will stay green indefinetely as long as there is no demand for the other way and no emergency.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af6\afs24\lang1081\loch\f3\fs24\lang1033{\rtlch \ltrch\loch

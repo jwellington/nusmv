@@ -46,19 +46,12 @@ MODULE main
 		
 	SPEC AG !(lightEW.color = green & lightNS.color = green)
 	SPEC AG !(lightEW.color = green & lightNS.walking = on)
-	SPEC AG !(lightNS.color = green & lightEW.walking = on)
-	SPEC AG !(lightNS.color = green & lightNS.walking = off)
-	SPEC AG !(lightEW.color = green & lightNS.color = yellow)
-	SPEC AG !(lightEW.color = yellow & lightNS.color = yellow)
-	SPEC AG !(lightEW.color = yellow & lightNS.color = green)
-	SPEC AG !(entering & lightNS.status != myentering & lightEW.status != myentering) 
-	SPEC AG !(exiting & lightNS.status != myexiting & lightEW.status != myexiting) 
-	SPEC AG !(entering & (lightNS.color = green | lightEW.color = green)) 
+
+	SPEC AG (lightEW.color = green -> AF lightEW.color = red)
 	
 	LTLSPEC G ((lightEW.color = red & demandEW) -> F lightEW.color = green)
 	LTLSPEC G ((emergencyNS & Y(!emergencyNS)) -> F lightNS.color = green)
-	LTLSPEC G ((emergencyEW & Y(!emergencyEW)) -> F lightEW.color = green)
-	LTLSPEC G (lightEW.color = green U lightEW.color = yellow)
+	
 	FAIRNESS
 		running
 MODULE light( otherDemand, emergency, entering, exiting, initstatus)
