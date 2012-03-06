@@ -1,0 +1,112 @@
+MODULE main
+	VAR
+		demandNS		: boolean;
+		demandEW	: boolean;
+		emergencyNS	:	boolean;
+		emergencyEW	:	boolean;
+		entering	: boolean;
+		exiting		:	boolean;
+		initStatusEntering	:	{myentering, myexiting, myidle};
+		initStatusIdle	:		{myentering, myexiting, myidle};
+		lightEW		:	process light(demandNS, emergencyNS, entering, exiting, initStatusEntering);
+		lightNS		:	process	light(demandEW, emergencyEW, entering, exiting, initStatusIdle);
+	ASSIGN
+		init(demandNS)	:= FALSE;
+		init(demandEW)	:= FALSE;
+		init(emergencyNS) := FALSE;
+		init(emergencyEW) := FALSE;
+		init(entering) := TRUE;
+		init(exiting) := FALSE;
+		init(initStatusEntering) := myentering;
+		init(initStatusIdle) := myidle;
+		next(demandEW)	:=
+			case
+				lightEW.color = red & demandEW : {TRUE};
+				TRUE						: {TRUE, FALSE};
+			esac;
+		next(demandNS)	:=
+			case
+				lightNS.color = red & demandNS : {TRUE};
+				TRUE						: {TRUE, FALSE};
+			esac;
+		next(emergencyNS)	:=
+			case
+				lightNS.color = green 			  : {FALSE};
+				lightNS.color != green & emergencyNS : {TRUE};
+				TRUE							: {TRUE, FALSE};
+			esac;
+		next(emergencyEW)	:=
+			case
+				lightEW.color = green				: {FALSE};
+				lightEW.color != green & emergencyEW : {TRUE};
+				TRUE							: {TRUE, FALSE};
+			esac;
+		
+	SPEC AG !(lightEW.color = green & lightNS.color = green)
+	SPEC AG !(lightEW.color = green & lightNS.walking = on)
+	SPEC AG !(lightNS.color = green & lightEW.walking = on)
+	SPEC AG !(lightNS.color = green & lightNS.walking = off)
+	SPEC AG !(lightEW.color = green & lightNS.color = yellow)
+	SPEC AG !(lightEW.color = yellow & lightNS.color = yellow)
+	SPEC AG !(lightEW.color = yellow & lightNS.color = green)
+	SPEC AG !(entering & lightNS.status != myentering & lightEW.status != myentering) 
+	SPEC AG !(exiting & lightNS.status != myexiting & lightEW.status != myexiting) 
+	SPEC AG !(entering & (lightNS.color = green | lightEW.color = green)) 
+	
+	LTLSPEC G ((lightEW.color = red & demandEW) -> F lightEW.color = green)
+	LTLSPEC G( (emergencyNS & Y(!emergencyNS)) -> F lightNS.color = green)
+	LTLSPEC G( (emergencyEW & Y(!emergencyEW)) -> F lightEW.color = green)
+	FAIRNESS
+		running
+MODULE light( otherDemand, emergency, entering, exiting, initstatus)
+	VAR
+		color : {green, yellow, red};
+		walking : {on, flashing, off};
+		status 	: {myentering, myexiting, myidle};
+		
+	ASSIGN
+		init(color) := red;
+		init(walking) := off;
+		init(status) := initstatus;
+		next(color) :=
+			case
+				color = red & entering & status = myentering & !exiting		: green;
+				color = green & emergency & !entering & !exiting			: yellow;
+				color = green & walking = flashing 	& !entering & !exiting	: yellow;
+				color = yellow	 & entering & status = myexiting			: red;
+				TRUE														: color;
+			esac;
+		next(walking) :=
+			case
+				color = red & entering & status = myentering & !exiting		: on;
+				otherDemand & walking = on									: flashing;
+				color = green & emergency & !entering & !exiting 			: off;
+				color = green & walking = flashing 	& !entering & !exiting	: off;
+				TRUE														: walking;
+			esac;
+		next(entering) :=
+			case
+				color = red & exiting & !entering & status = myidle			: TRUE;
+				color = red & entering & status = myentering & !exiting		: FALSE;
+				TRUE														: entering;
+			esac;
+		next(exiting) :=
+			case
+				color = yellow 	& !entering & !exiting & status = myidle 	: TRUE;
+				color = red	 & entering & status = myexiting				: FALSE;
+				TRUE														: exiting;
+			esac;
+		next(status) :=
+			case
+				color = red & exiting & !entering & status = myidle 		: myentering;
+				color = yellow 	& !entering & !exiting & status = myidle	: myexiting;
+				color = red	 & !exiting & status = myentering				: myidle;
+				color = red & entering & status = myexiting					: myidle;
+				TRUE														: status;
+			esac;
+	FAIRNESS
+		running
+			
+				
+			
+	
